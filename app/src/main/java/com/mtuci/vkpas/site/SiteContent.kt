@@ -14,10 +14,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Visibility
@@ -90,7 +92,11 @@ fun SiteContent(
                 .padding(top = 22.dp)
                 .padding(horizontal = 22.dp)
         ) {
-            Column(Modifier.fillMaxSize()) {
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+            ) {
                 BasicTextField(
                     value = state.name.value,
                     onValueChange = { state.name.value = it },
@@ -196,13 +202,15 @@ fun SiteContent(
                     .clip(RoundedCornerShape(35))
                     .background(BlueBackgroundMedium)
                     .clickable {
-                               onEvent(SitesEvent.SaveSite(
-                                   name = state.name.value,
-                                   link = state.link.value,
-                                   password = state.password.value,
-                               ))
-                                onBackClick()
-                               },
+                        onEvent(
+                            SitesEvent.SaveSite(
+                                name = state.name.value,
+                                link = state.link.value,
+                                password = state.password.value,
+                            )
+                        )
+                        onBackClick()
+                    },
             ) {
                 Text(
                     text = stringResource(R.string.save_site),

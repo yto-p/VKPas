@@ -26,10 +26,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.request.ImageRequest
+import com.google.accompanist.coil.rememberCoilPainter
 import com.mtuci.vkpas.R
 import com.mtuci.vkpas.main.SitesEvent
 import com.mtuci.vkpas.main.SitesState
@@ -62,7 +65,10 @@ fun SiteView(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                painter = painterResource(R.drawable.default_icon),
+                painter = rememberCoilPainter(
+                    request = ImageRequest.Builder(LocalContext.current).crossfade(true)
+                        .data("${state.sites[index].link}/favicon.ico").build()
+                ),
                 contentDescription = "",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
