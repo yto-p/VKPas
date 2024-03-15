@@ -37,9 +37,10 @@ import com.mtuci.vkpas.ui.theme.GrayBackgroundMedium
 import com.mtuci.vkpas.ui.theme.GrayTextDark
 
 @Composable
-fun SiteContent(
+fun SiteView(
     state: SitesState,
     index: Int,
+    editSite: () -> Unit,
     onEvent: (SitesEvent) -> Unit){
     Box(modifier = Modifier
         .fillMaxWidth()
@@ -48,7 +49,10 @@ fun SiteContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(percent = 35))
-                .clickable { }
+                .clickable {
+                    onEvent(SitesEvent.EditSite(state.sites[index]))
+                    editSite()
+                }
                 .border(
                     width = 1.dp,
                     brush = SolidColor(GrayBackgroundMedium),

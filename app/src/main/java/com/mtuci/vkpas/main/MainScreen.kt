@@ -1,16 +1,7 @@
 package com.mtuci.vkpas.main
 
-import androidx.activity.ComponentActivity
-import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
-import androidx.room.Room
-import com.mtuci.vkpas.model.SitesDatabase
 
 @Composable
 fun MainScreen(
@@ -22,6 +13,7 @@ fun MainScreen(
     MainContent(
         state = state,
         addSite = { navController.navigate("site") },
+        editSite = { navController.navigate("site") },
         onEvent = onEvent
     )
 }

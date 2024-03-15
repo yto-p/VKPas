@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -27,8 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mtuci.vkpas.R
-import com.mtuci.vkpas.model.SiteContent
-import com.mtuci.vkpas.model.Site
+import com.mtuci.vkpas.model.SiteView
 import com.mtuci.vkpas.ui.theme.BlueBackgroundMedium
 import com.mtuci.vkpas.ui.theme.GrayBackgroundLight
 
@@ -36,6 +34,7 @@ import com.mtuci.vkpas.ui.theme.GrayBackgroundLight
 fun MainContent(
     state: SitesState,
     addSite: () -> Unit,
+    editSite: () -> Unit,
     onEvent: (SitesEvent) -> Unit
 ){
     Column(
@@ -65,10 +64,11 @@ fun MainContent(
                 Modifier.fillMaxSize()) {
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
                     items(state.sites.size){ index ->
-                        SiteContent(
+                        SiteView(
                             state = state,
                             index = index,
-                            onEvent = onEvent
+                            onEvent = onEvent,
+                            editSite = editSite
                         )
                     }
                 }

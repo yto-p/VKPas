@@ -5,6 +5,7 @@ import com.mtuci.vkpas.model.Site
 sealed interface SitesEvent {
     object SortSites: SitesEvent
     data class DeleteSite(val site: Site): SitesEvent
+    data class EditSite(val site: Site): SitesEvent
 
     data class SaveSite(
         val name: String,

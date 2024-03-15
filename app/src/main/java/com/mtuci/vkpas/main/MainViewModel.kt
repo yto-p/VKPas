@@ -18,6 +18,7 @@ class MainViewModel(
     private val dao: SiteDao
 ): ViewModel() {
     private val isSortedByDataAdded = MutableStateFlow(true)
+    private var selectedSite: Site? = null
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private var sites = isSortedByDataAdded.flatMapLatest {
@@ -44,7 +45,8 @@ class MainViewModel(
                         name = state.value.name.value,
                         link = state.value.link.value,
                         password = state.value.password.value,
-                        dateAdded = System.currentTimeMillis()
+                        dateAdded = System.currentTimeMillis(),
+                        id = selectedSite?.id ?: 0
                     )
                 viewModelScope.launch {
                     dao.upsertSite(site)
@@ -56,10 +58,22 @@ class MainViewModel(
                         password = mutableStateOf("")
                     )
                 }
+                selectedSite = null
             }
 
             SitesEvent.SortSites -> {
                 isSortedByDataAdded.value = !isSortedByDataAdded.value
+            }
+
+            is SitesEvent.EditSite -> {
+                selectedSite = event.site
+                _state.update {
+                    it.copy(
+                        name = mutableStateOf(event.site.name),
+                        link = mutableStateOf(event.site.link),
+                        password = mutableStateOf(event.site.password)
+                    )
+                }
             }
         }
     }
