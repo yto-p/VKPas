@@ -45,6 +45,8 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mtuci.vkpas.R
+import com.mtuci.vkpas.main.SitesEvent
+import com.mtuci.vkpas.main.SitesState
 import com.mtuci.vkpas.ui.theme.BlueBackgroundMedium
 import com.mtuci.vkpas.ui.theme.GrayBackgroundLight
 import com.mtuci.vkpas.ui.theme.GrayBackgroundMedium
@@ -52,14 +54,9 @@ import com.mtuci.vkpas.ui.theme.GrayTextDark
 
 @Composable
 fun SiteContent(
-    name: String,
-    link: String,
-    password: String,
-    onNameChange: (String) -> Unit,
-    onLinkChange: (String) -> Unit,
-    onPasswordChange: (String) -> Unit,
-    onBackClick: () -> Unit,
-    onSaveSiteClick: () -> Unit
+    state: SitesState,
+    onEvent: (SitesEvent) -> Unit,
+    onBackClick: () -> Unit
 ){
     Column(
         modifier = Modifier
@@ -95,8 +92,8 @@ fun SiteContent(
         ) {
             Column(Modifier.fillMaxSize()) {
                 BasicTextField(
-                    value = name,
-                    onValueChange = onNameChange,
+                    value = state.name.value,
+                    onValueChange = { state.name.value = it },
                     singleLine = true,
                     decorationBox = { textField ->
                         Column(
@@ -127,8 +124,8 @@ fun SiteContent(
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 BasicTextField(
-                    value = link,
-                    onValueChange = onLinkChange,
+                    value = state.link.value,
+                    onValueChange = { state.link.value = it },
                     singleLine = true,
                     decorationBox = { textField ->
                         Column(
@@ -159,8 +156,8 @@ fun SiteContent(
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 BasicTextField(
-                    value = password,
-                    onValueChange = onPasswordChange,
+                    value = state.password.value,
+                    onValueChange = { state.password.value = it },
                     singleLine = true,
                     decorationBox = { textField ->
                         Column(
@@ -198,7 +195,14 @@ fun SiteContent(
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(35))
                     .background(BlueBackgroundMedium)
-                    .clickable { onSaveSiteClick() },
+                    .clickable {
+                               onEvent(SitesEvent.SaveSite(
+                                   name = state.name.value,
+                                   link = state.link.value,
+                                   password = state.password.value,
+                               ))
+                                onBackClick()
+                               },
             ) {
                 Text(
                     text = stringResource(R.string.save_site),

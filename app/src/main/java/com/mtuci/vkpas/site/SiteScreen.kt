@@ -5,25 +5,16 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.mtuci.vkpas.main.SitesEvent
+import com.mtuci.vkpas.main.SitesState
 
 @Composable
-fun SiteScreen(navController: NavController){
-    val viewModel = viewModel{
-        SiteViewModel()
-    }
-
-    val name by viewModel.name.collectAsState()
-    val link by viewModel.link.collectAsState()
-    val password by viewModel.password.collectAsState()
+fun SiteScreen(state: SitesState,
+               navController: NavController,
+               onEvent: (SitesEvent) -> Unit){
 
     SiteContent(
-        name = name,
-        link = link,
-        password = password,
-        onNameChange = { value -> viewModel.name.value = value },
-        onLinkChange = { value -> viewModel.link.value = value },
-        onPasswordChange = { value -> viewModel.password.value = value },
-        onBackClick = { navController.navigateUp() },
-        onSaveSiteClick = { navController.navigateUp() }
-    )
+        state = state,
+        onEvent = onEvent,
+        onBackClick = { navController.navigateUp() })
 }

@@ -1,33 +1,27 @@
 package com.mtuci.vkpas.main
 
+import androidx.activity.ComponentActivity
+import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
-import com.mtuci.vkpas.R
-import com.mtuci.vkpas.model.SiteData
+import androidx.room.Room
+import com.mtuci.vkpas.model.SitesDatabase
 
 @Composable
-fun MainScreen(navController: NavController){
-    val viewModel = viewModel{
-        MainViewModel()
-    }
-    val sites = listOf(
-        SiteData(
-            id = 0,
-            name = "Yandex",
-            link = "yandex.ru",
-            password = "",
-            icon = R.drawable.yandex,
-            openSite = {navController.navigate("site")}
-        ),
-        SiteData(
-            id = 1,
-            name = "VK",
-            link = "vk.com",
-            password = "",
-            icon = R.drawable.vkontakte,
-            openSite = {navController.navigate("site")}
-        )
+fun MainScreen(
+    state: SitesState,
+    navController: NavController,
+    onEvent: (SitesEvent) -> Unit
+){
+
+    MainContent(
+        state = state,
+        addSite = { navController.navigate("site") },
+        onEvent = onEvent
     )
-    MainContent(sites) { navController.navigate("site") }
 }

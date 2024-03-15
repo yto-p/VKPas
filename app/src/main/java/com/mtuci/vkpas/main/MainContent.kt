@@ -16,7 +16,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,13 +28,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mtuci.vkpas.R
 import com.mtuci.vkpas.model.SiteContent
-import com.mtuci.vkpas.model.SiteData
+import com.mtuci.vkpas.model.Site
 import com.mtuci.vkpas.ui.theme.BlueBackgroundMedium
 import com.mtuci.vkpas.ui.theme.GrayBackgroundLight
 
 @Composable
 fun MainContent(
-    sites: List<SiteData>, addSite: () -> Unit){
+    state: SitesState,
+    addSite: () -> Unit,
+    onEvent: (SitesEvent) -> Unit
+){
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -59,10 +61,15 @@ fun MainContent(
                 .padding(top = 22.dp)
                 .padding(horizontal = 22.dp)
         ) {
-            Column(Modifier.fillMaxSize()) {
+            Column(
+                Modifier.fillMaxSize()) {
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
-                    items(sites){ site ->
-                        SiteContent(site = site)
+                    items(state.sites.size){ index ->
+                        SiteContent(
+                            state = state,
+                            index = index,
+                            onEvent = onEvent
+                        )
                     }
                 }
 
@@ -74,7 +81,12 @@ fun MainContent(
                     .size(72.dp)
                     .clip(RoundedCornerShape(35))
                     .background(BlueBackgroundMedium)
-                    .clickable { addSite() },
+                    .clickable {
+                        state.name.value = ""
+                        state.link.value = ""
+                        state.password.value = ""
+                        addSite()
+                   },
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
@@ -84,6 +96,5 @@ fun MainContent(
                 )
             }
         }
-
     }
 }
