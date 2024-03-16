@@ -1,6 +1,5 @@
 package com.mtuci.vkpas.model
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -26,14 +25,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.request.ImageRequest
-import com.google.accompanist.coil.rememberCoilPainter
-import com.mtuci.vkpas.R
+import coil.compose.AsyncImage
 import com.mtuci.vkpas.main.SitesEvent
 import com.mtuci.vkpas.main.SitesState
 import com.mtuci.vkpas.ui.theme.GrayBackgroundMedium
@@ -64,11 +59,8 @@ fun SiteView(
                 .padding(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
-                painter = rememberCoilPainter(
-                    request = ImageRequest.Builder(LocalContext.current).crossfade(true)
-                        .data("${state.sites[index].link}/favicon.ico").build()
-                ),
+            AsyncImage(
+                model = "${state.sites[index].link}/favicon.ico",
                 contentDescription = "",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
