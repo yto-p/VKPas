@@ -22,6 +22,7 @@ import androidx.room.Room
 import com.mtuci.vkpas.main.MainScreen
 import com.mtuci.vkpas.main.MainViewModel
 import com.mtuci.vkpas.model.SitesDatabase
+import com.mtuci.vkpas.password.PasswordScreen
 import com.mtuci.vkpas.site.SiteScreen
 import com.mtuci.vkpas.ui.theme.VKPasTheme
 
@@ -50,7 +51,7 @@ class MainActivity : ComponentActivity() {
                 val state by viewModel.state.collectAsState()
 
                 NavHost(
-                    startDestination = "main",
+                    startDestination = "password",
                     navController = navController
                 ) {
                     composable("main") {
@@ -63,6 +64,9 @@ class MainActivity : ComponentActivity() {
                         SiteScreen(state = state,
                             navController = navController,
                             onEvent = viewModel::onEvent)
+                    }
+                    composable("password") {
+                        PasswordScreen(navController = navController)
                     }
                 }
             }
